@@ -1,13 +1,12 @@
-﻿namespace DotnetDevkit.Cache;
+﻿using Microsoft.Extensions.Caching.StackExchangeRedis;
+
+namespace DotnetDevkit.Cache;
 
 using System;
 
-public class RedisCacheOptions
+public class SafeRedisCacheOptions: RedisCacheOptions
 {
-    public TimeSpan DefaultExpiry { get; set; } = TimeSpan.FromMinutes(5);
-    public TimeSpan LockExpiry { get; set; } = TimeSpan.FromSeconds(30);
-    public TimeSpan LockWait { get; set; } = TimeSpan.FromSeconds(10);
-    public string? InstanceName { get; set; }
-    public bool UseMemoryFallback { get; set; } = true;
-    public int MemoryFallbackSizeLimit { get; set; } = 1024; // optional
+    public double DefaultExpiryMs { get; set; } = TimeSpan.FromMinutes(5).TotalMilliseconds;
+    public double LockExpiryMs { get; set; } = TimeSpan.FromSeconds(30).TotalMilliseconds;
+    public double LockWaitMs { get; set; } = TimeSpan.FromSeconds(10).TotalMilliseconds;
 }

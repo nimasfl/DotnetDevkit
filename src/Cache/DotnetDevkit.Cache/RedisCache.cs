@@ -16,11 +16,11 @@ public class RedisCache : ICache, IDisposable
 {
     internal volatile ConnectionMultiplexer? _redis;
     internal volatile IDistributedLockFactory? _redLockFactory;
-    private readonly RedisCacheOptions _options;
+    private readonly SafeRedisCacheOptions _options;
     internal readonly Func<Task<ConnectionMultiplexer?>>? _connectionFactory;
     internal int _connectInProgress;
 
-    public RedisCache(ConnectionMultiplexer? redisConnection, IOptions<RedisCacheOptions> options,
+    public RedisCache(ConnectionMultiplexer? redisConnection, IOptions<SafeRedisCacheOptions> options,
         Func<Task<ConnectionMultiplexer?>>? connectionFactory = null)
     {
         _options = options.Value;
@@ -63,7 +63,7 @@ public class RedisCache : ICache, IDisposable
     public async Task SetAsync<T>(string key, T value, TimeSpan? absoluteExpiry = null,
         CancellationToken cancellationToken = default)
     {
-        var expiry = absoluteExpiry ?? _options.DefaultExpiry;
+        var expiry = absoluteExpiry ?? TimeSpan.FromMilliseconds(_options.DefaultExpiryMs);
         var redis = _redis;
         if (redis is { IsConnected: true })
         {
@@ -98,15 +98,17 @@ public class RedisCache : ICache, IDisposable
             return CacheResult<T>.None;
         }
 
-        var expiry = absoluteExpiry ?? _options.DefaultExpiry;
+        var expiry = absoluteExpiry ?? TimeSpan.FromMilliseconds(_options.DefaultExpiryMs);
         var lockKey = $"{key}:lock";
 
         if (_redLockFactory != null)
         {
             try
             {
-                await using var redLock = await _redLockFactory.CreateLockAsync(lockKey, _options.LockExpiry,
-                    _options.LockWait, TimeSpan.FromMilliseconds(200)).ConfigureAwait(false);
+                await using var redLock = await _redLockFactory.CreateLockAsync(lockKey,
+                        TimeSpan.FromMilliseconds(_options.LockExpiryMs),
+                        TimeSpan.FromMilliseconds(_options.LockWaitMs), TimeSpan.FromMilliseconds(200))
+                    .ConfigureAwait(false);
                 if (redLock.IsAcquired)
                 {
                     var afterAcquire = await GetAsync<T>(key, cancellationToken).ConfigureAwait(false);
@@ -122,7 +124,7 @@ public class RedisCache : ICache, IDisposable
                 else
                 {
                     var sw = System.Diagnostics.Stopwatch.StartNew();
-                    while (sw.Elapsed < _options.LockWait)
+                    while (sw.Elapsed < TimeSpan.FromMilliseconds(_options.LockWaitMs))
                     {
                         await Task.Delay(100, cancellationToken).ConfigureAwait(false);
                         var peek = await GetAsync<T>(key, cancellationToken).ConfigureAwait(false);
