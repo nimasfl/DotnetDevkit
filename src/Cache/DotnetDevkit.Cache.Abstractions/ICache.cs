@@ -13,8 +13,17 @@ public interface ICache
 
     Task RemoveAsync(string key, CancellationToken cancellationToken = default);
 
-    /// Get value from cache or create it with the factory. Uses distributed lock to prevent thundering herd.
+
+    /// <summary>
+    /// Get value from cache or add it with the factory. Uses distributed lock to prevent thundering herd.
     /// Must never throw if Redis is down; it will compute the factory value and return it.
-    Task<CacheResult<T>> GetOrAddAsync<T>(string key, Func<CancellationToken, Task<T>> factory, TimeSpan? absoluteExpiry = null,
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="factory"></param>
+    /// <param name="absoluteExpiry"></param>
+    /// <param name="cancellationToken"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    Task<T> GetOrAddAsync<T>(string key, Func<CancellationToken, Task<T>> factory, TimeSpan? absoluteExpiry = null,
         CancellationToken cancellationToken = default);
 }
