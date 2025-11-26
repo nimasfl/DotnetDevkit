@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Runtime.InteropServices.Marshalling;
+using DotnetDevkit.Cache.Abstractions;
 
 namespace DotnetDevkit.Cache.Models;
 

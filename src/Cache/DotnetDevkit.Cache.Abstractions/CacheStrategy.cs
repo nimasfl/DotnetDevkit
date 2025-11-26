@@ -1,4 +1,4 @@
-﻿namespace DotnetDevkit.Cache.Models;
+﻿namespace DotnetDevkit.Cache.Abstractions;
 
 public enum CacheStrategy
 {

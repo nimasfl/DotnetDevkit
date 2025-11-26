@@ -1,6 +1,4 @@
-﻿using DotnetDevkit.Cache.Models;
-
-namespace DotnetDevkit.Cache;
+﻿namespace DotnetDevkit.Cache.Abstractions;
 
 public interface ICacheProvider
 {

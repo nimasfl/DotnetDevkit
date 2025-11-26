@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace DotnetDevkit.Cache.Models;
+namespace DotnetDevkit.Cache.Abstractions;
 
 public record CacheContext
 {
@@ -18,25 +18,9 @@ public record CacheContext
         SlidingTimespan = slidingTimespan;
     }
 
-    public CacheContext(DateTime dateTime)
+    public static CacheContext Create()
     {
-        SetExpiration(dateTime);
-    }
-    public CacheContext(DateTime dateTime, TimeSpan slidingTimespan)
-    {
-        SetExpiration(dateTime, slidingTimespan);
-    }
-    public CacheContext(TimeSpan timespan)
-    {
-        SetExpiration(timespan);
-    }
-    public CacheContext(TimeSpan timespan, TimeSpan slidingTimespan)
-    {
-        SetExpiration(timespan, slidingTimespan);
-    }
-    public CacheContext(TimeSpan timespan, bool enableSliding)
-    {
-        SetExpiration(timespan, enableSliding);
+        return new CacheContext();
     }
 
     public void SetExpiration(DateTime dateTime)
