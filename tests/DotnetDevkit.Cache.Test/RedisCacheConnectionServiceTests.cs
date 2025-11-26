@@ -16,10 +16,11 @@ namespace DotnetDevkit.Cache.Test
                 RetryMaxDelayMs = 50
             });
 
-            var redisLogger = A.Fake<ILogger<RedisCache>>();
+            var redisLogger = new FakeLogger<RedisCache>();
+
             var cache = new RedisCache(options, connectionFactory: null, redisLogger);
 
-            var svcLogger = A.Fake<ILogger<RedisCacheConnectionService>>();
+            var svcLogger = new FakeLogger<RedisCacheConnectionService>();
             var svc = new RedisCacheConnectionService(cache, options, svcLogger);
 
             await svc.StartAsync(CancellationToken.None);
@@ -40,10 +41,10 @@ namespace DotnetDevkit.Cache.Test
                 RetryMaxDelayMs = 50
             });
 
-            var redisLogger = A.Fake<Microsoft.Extensions.Logging.ILogger<RedisCache>>();
+            var redisLogger = new FakeLogger<RedisCache>();
             var cache = new RedisCache(options, connectionFactory: null, redisLogger);
 
-            var svcLogger = A.Fake<ILogger<RedisCacheConnectionService>>();
+            var svcLogger = new FakeLogger<RedisCacheConnectionService>();
             var svc = new RedisCacheConnectionService(cache, options, svcLogger);
 
             await svc.StartAsync(CancellationToken.None);
