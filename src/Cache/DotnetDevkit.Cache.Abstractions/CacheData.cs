@@ -1,4 +1,11 @@
-﻿namespace DotnetDevkit.Cache.Abstractions;
+﻿using System.Diagnostics.CodeAnalysis;
 
-public record CacheData(CacheContext Context, object? Value);
-public record CacheData<T>(CacheContext Context, T Value);
+namespace DotnetDevkit.Cache.Abstractions;
+
+public record CacheData<T>(bool HasData, T Value)
+{
+    public static CacheData<TValue?> Empty<TValue>()
+    {
+        return new CacheData<TValue?>(false, default);
+    }
+}
