@@ -11,11 +11,13 @@ public static class Extensions
         {
             services.AddOptions<RedisCacheOptions>()
                 .BindConfiguration(configurationSectionPath)
-                .Validate()
+                .Validate(o => o != null)
                 .ValidateOnStart();
 
             services.AddScoped<RedisCache>();
             services.AddScoped<ICache, RedisCacheReconnector>();
+
+            return services;
         }
     }
 }
