@@ -20,12 +20,12 @@ public class RedisCache : ICache, IDisposable
     internal readonly Func<Task<ConnectionMultiplexer?>>? _connectionFactory;
     internal int _connectInProgress;
 
-    public RedisCache(ConnectionMultiplexer? redisConnection, IOptions<SafeRedisCacheOptions> options,
+    public RedisCache(IOptions<SafeRedisCacheOptions> options,
         Func<Task<ConnectionMultiplexer?>>? connectionFactory = null)
     {
         _options = options.Value;
         ArgumentNullException.ThrowIfNull(_options);
-        _redis = redisConnection;
+        _redis = null;
         _connectionFactory = connectionFactory;
 
         TryInitializeRedLock();

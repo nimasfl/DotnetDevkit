@@ -17,8 +17,6 @@ public static class Extensions
                 .Validate(o => o != null && (o.Configuration != null || o.ConfigurationOptions != null))
                 .ValidateOnStart();
 
-            // Register a connection factory that will create ConnectionMultiplexer on demand using values
-            // from the same configuration section. It looks for keys: "Configuration", "ConnectionString", "Connection".
             services.AddSingleton<Func<Task<ConnectionMultiplexer?>>>(sp =>
             {
                 return async () =>
@@ -38,14 +36,13 @@ public static class Extensions
                             return await ConnectionMultiplexer.ConnectAsync(options.ConfigurationOptions)
                                 .ConfigureAwait(false);
                         }
-
-                        return null;
                     }
                     catch
                     {
-                        // swallow - RedisCache already implements retry/silent-fail behaviour
-                        return null;
+                        // ignore
                     }
+
+                    return null;
                 };
             });
 
