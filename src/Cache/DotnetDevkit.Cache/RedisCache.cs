@@ -9,7 +9,7 @@ using DotnetDevkit.Cache.Abstractions;
 
 namespace DotnetDevkit.Cache;
 
-public class RedisCache(
+internal class RedisCache(
     IOptions<SafeRedisCacheOptions> options,
     Func<Task<ConnectionMultiplexer?>>? connectionFactory,
     ILogger<RedisCache> logger)

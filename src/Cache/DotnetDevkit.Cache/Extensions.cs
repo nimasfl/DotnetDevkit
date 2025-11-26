@@ -46,7 +46,7 @@ public static class Extensions
                 };
             });
 
-            // Provide RedisCache with IOptions<RedisCacheOptions> and the connection factory
+            services.AddSingleton<RedisCache>();
             services.AddSingleton<ICache, RedisCache>();
             services.AddHostedService<RedisCacheConnectionService>();
 

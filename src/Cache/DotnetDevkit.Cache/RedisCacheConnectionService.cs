@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace DotnetDevkit.Cache;
 
-public class RedisCacheConnectionService(
+internal class RedisCacheConnectionService(
     RedisCache cache,
     IOptions<SafeRedisCacheOptions> options,
     ILogger<RedisCacheConnectionService> logger)
