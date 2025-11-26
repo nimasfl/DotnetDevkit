@@ -17,6 +17,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetDevkit.Cache.Abstract
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetDevkit.Cache.Test", "tests\DotnetDevkit.Cache.Test\DotnetDevkit.Cache.Test.csproj", "{E780E919-DD7D-43BE-8DE5-0EAE7E9EADE2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github", "Github", "{45431C2D-CDB5-4DF4-8B4A-C10AC47AB054}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{49312992-B0E2-4D6E-AE45-9063E29A5BC8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\nuget-publish-template.yml = .github\workflows\nuget-publish-template.yml
+		.github\workflows\publish-cache-abstractions.yml = .github\workflows\publish-cache-abstractions.yml
+		.github\workflows\publish_cache.yml = .github\workflows\publish_cache.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +36,8 @@ Global
 		{362B5225-0B43-4112-8A77-7E9FD16E4264} = {2486BCB8-D3D8-4572-B9D9-2AF3001CD863}
 		{3E77C1DE-8292-4F58-9CB5-4313EC4FEC8C} = {2486BCB8-D3D8-4572-B9D9-2AF3001CD863}
 		{E780E919-DD7D-43BE-8DE5-0EAE7E9EADE2} = {7B3F5F1B-44A5-45D3-B118-BD1DA6B04422}
+		{45431C2D-CDB5-4DF4-8B4A-C10AC47AB054} = {3B0E76A3-35F6-44C4-99AF-4F4F58530102}
+		{49312992-B0E2-4D6E-AE45-9063E29A5BC8} = {45431C2D-CDB5-4DF4-8B4A-C10AC47AB054}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{362B5225-0B43-4112-8A77-7E9FD16E4264}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

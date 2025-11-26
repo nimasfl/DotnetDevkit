@@ -1,0 +1,15 @@
+﻿name: Publish DotnetDevkit.Cache.Abstractions
+
+on:
+  push:
+    tags:
+      - 'cache-abstractions-v*'
+
+jobs:
+  publish:
+    uses: ./.github/workflows/nuget-publish-template.yml
+    with:
+      project-path: 'src/Cache/DotnetDevkit.Cache.Abstractions/DotnetDevkit.Cache.Abstractions.csproj'
+      tag-prefix: 'cache-abstractions-v'
+    secrets:
+      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}

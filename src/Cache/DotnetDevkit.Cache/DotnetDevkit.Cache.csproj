@@ -5,6 +5,16 @@
         <LangVersion>14</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+
+        <PackageId>DotnetDevkit.Cache</PackageId>
+        <Authors>Nima Soufiloo</Authors>
+        <Description>A safe Redis cache implementation with distributed locking support</Description>
+        <PackageTags>cache;redis;distributed-cache;dotnet</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/nimasfl/DotnetDevkit/tree/master/src/Cache/DotnetDevkit.Cache</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/nimasfl/DotnetDevkit</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>

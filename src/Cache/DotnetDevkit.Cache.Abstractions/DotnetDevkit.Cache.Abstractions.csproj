@@ -11,6 +11,16 @@
         <LangVersion>14</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+
+        <PackageId>DotnetDevkit.Cache.Abstractions</PackageId>
+        <Authors>YourName</Authors>
+        <Description>Contains abstractions and types for DotnetDevkit.Cache package.</Description>
+        <PackageTags>cache;redis;distributed-cache;dotnet</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/nimasfl/DotnetDevkit/tree/master/src/Cache/DotnetDevkit.Cache.Abstractions</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/nimasfl/DotnetDevkit</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
     </PropertyGroup>
 
     <ItemGroup>
