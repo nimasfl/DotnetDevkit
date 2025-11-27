@@ -11,7 +11,7 @@ public class MediatorServiceConfiguration
     internal Assembly[] AssembliesToScan { get; private set; } = [];
     internal ServiceLifetime ServiceLifetime { get; private set; } = ServiceLifetime.Scoped;
     internal List<Type> RequestBehaviors { get; } = [];
-    internal List<Type> CommandBehaviors { get; } = [];
+    internal List<Type> RequestResponseBehaviors { get; } = [];
 
     public void RegisterServicesFromAssemblies(params Assembly[] assemblies)
     {
@@ -31,7 +31,14 @@ public class MediatorServiceConfiguration
     public void AddBehavior(Type behaviorType)
     {
         GuardBehaviorType(behaviorType);
-        RequestBehaviors.Add(behaviorType);
+        if (behaviorType.GetInterfaces().Any(i => i.GetGenericTypeDefinition() == typeof(IRequestBehavior<,>)))
+        {
+            RequestResponseBehaviors.Add(behaviorType);
+        }
+        else
+        {
+            RequestBehaviors.Add(behaviorType);
+        }
     }
 
     private static void GuardBehaviorType(Type behaviorType)

@@ -8,17 +8,17 @@ public class Sender(IServiceProvider serviceProvider) : ISender
     {
         if (request is null) throw new ArgumentNullException(nameof(request));
 
-        return SendInternal((dynamic)request, cancellationToken);
+        return SendInternalWithResponse((dynamic)request, cancellationToken);
     }
 
     public Task Send(IRequest request, CancellationToken cancellationToken = default)
     {
         if (request is null) throw new ArgumentNullException(nameof(request));
 
-        return SendInternal((dynamic)request, cancellationToken);
+        return SendInternalNoResponse((dynamic)request, cancellationToken);
     }
 
-    private Task<TResponse> SendInternal<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken)
+    private Task<TResponse> SendInternalWithResponse<TRequest, TResponse>(TRequest request, CancellationToken cancellationToken)
         where TRequest : IRequest<TResponse>
     {
         var handler = serviceProvider.GetRequiredService<IRequestHandler<TRequest, TResponse>>();
@@ -32,7 +32,7 @@ public class Sender(IServiceProvider serviceProvider) : ISender
         Task<TResponse> HandlerDelegate() => handler.Handle(request, cancellationToken);
     }
 
-    private Task SendInternal<TRequest>(TRequest request, CancellationToken cancellationToken)
+    private Task SendInternalNoResponse<TRequest>(TRequest request, CancellationToken cancellationToken)
         where TRequest : IRequest
     {
         var handler = serviceProvider.GetRequiredService<IRequestHandler<TRequest>>();

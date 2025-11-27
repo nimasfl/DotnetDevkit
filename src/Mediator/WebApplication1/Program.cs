@@ -7,6 +7,7 @@ builder.Services.AddMediator(config =>
 {
     config.RegisterServicesFromAssembly(typeof(Program).Assembly);
     config.AddBehavior(typeof(B1<>));
+    config.AddBehavior(typeof(B3<>));
     config.AddBehavior(typeof(B2<>));
 });
 
@@ -21,13 +22,17 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-app.MapGet("/test", (ISender sender) => { sender.Send(new SomeCommand()); })
+app.MapGet("/test",
+        async (ISender sender, CancellationToken cancellationToken) =>
+        {
+            await sender.Send(new SomeCommand(), cancellationToken);
+        })
     .WithName("GetWeatherForecast");
 
 app.Run();
 
 
-public record SomeCommand : ICommand;
+public record SomeCommand : IRequest<int>;
 
 public class B1<TRequest> : IRequestBehavior<TRequest> where TRequest : IRequest
 {
@@ -45,12 +50,20 @@ public class B2<TRequest> : IRequestBehavior<TRequest> where TRequest : IRequest
     }
 }
 
-
-
-public class SomeCommandHandler : ICommandHandler<SomeCommand>
+public class B3<TRequest> : IRequestBehavior<TRequest> where TRequest : IRequest
 {
-    public async Task Handle(SomeCommand command, CancellationToken cancellationToken)
+    public async Task Handle(TRequest command, CancellationToken cancellationToken, RequestHandlerDelegate next)
+    {
+        await next();
+    }
+}
+
+
+public class SomeCommandHandler : IRequestHandler<SomeCommand, int>
+{
+    public async Task<int> Handle(SomeCommand command, CancellationToken cancellationToken)
     {
         await Task.Delay(500, cancellationToken);
+        return 1;
     }
 }

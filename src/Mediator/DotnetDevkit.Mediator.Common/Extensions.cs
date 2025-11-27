@@ -32,12 +32,12 @@ public static class Extensions
             .WithLifetime(configuration.ServiceLifetime)
         );
 
-        foreach (var behavior in configuration.RequestBehaviors)
+        foreach (var behavior in configuration.RequestResponseBehaviors)
         {
             services.Add(new ServiceDescriptor(typeof(IRequestBehavior<,>), behavior, configuration.ServiceLifetime));
         }
 
-        foreach (var behavior in configuration.CommandBehaviors)
+        foreach (var behavior in configuration.RequestBehaviors)
         {
             services.Add(new ServiceDescriptor(typeof(IRequestBehavior<>), behavior, configuration.ServiceLifetime));
         }
