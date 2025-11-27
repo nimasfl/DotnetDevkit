@@ -4,7 +4,7 @@ name: Publish DotnetDevkit.Cache
 on:
   push:
     tags:
-      - 'cache-v*'
+      - 'cache/v*'
 
 jobs:
   publish:
