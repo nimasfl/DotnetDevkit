@@ -11,6 +11,6 @@ jobs:
     uses: ./.github/workflows/nuget-publish-template.yml
     with:
       project-path: 'src/Cache/DotnetDevkit.Cache/DotnetDevkit.Cache.csproj'
-      tag-prefix: 'cache-v'
+      tag-prefix: 'cache/v'
     secrets:
       NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
