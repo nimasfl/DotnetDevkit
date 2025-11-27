@@ -3,7 +3,7 @@
 on:
   push:
     tags:
-      - 'cache/-v*'
+      - 'cache/v*'
 
 jobs:
   publish:

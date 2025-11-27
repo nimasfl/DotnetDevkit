@@ -1,5 +1,4 @@
-﻿# .github/workflows/publish-cache.yml
-name: Publish DotnetDevkit.Cache
+﻿name: Publish DotnetDevkit.Cache
 
 on:
   push:
