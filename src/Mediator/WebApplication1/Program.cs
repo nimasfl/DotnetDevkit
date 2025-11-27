@@ -6,8 +6,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddMediator(config =>
 {
     config.RegisterServicesFromAssembly(typeof(Program).Assembly);
-    config.AddBehavior<B1>();
-    config.AddBehavior<B2>();
+    config.AddBehavior(typeof(B1<>));
+    config.AddBehavior(typeof(B2<>));
 });
 
 var app = builder.Build();

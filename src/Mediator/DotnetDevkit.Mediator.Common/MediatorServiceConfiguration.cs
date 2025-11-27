@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -27,17 +28,34 @@ public class MediatorServiceConfiguration
         ServiceLifetime = serviceLifetime;
     }
 
-    public void AddBehavior<TBehavior, TRequest, TResponse>()
-        where TBehavior : IRequestBehavior<TRequest, TResponse>
-        where TRequest : IRequest<TResponse>
+    public void AddBehavior(Type behaviorType)
     {
-        RequestBehaviors.Add(typeof(TBehavior));
+        GuardBehaviorType(behaviorType);
+        RequestBehaviors.Add(behaviorType);
     }
 
-    public void AddBehavior<TBehavior, TRequest>()
-        where TBehavior : IRequestBehavior<TRequest>
-        where TRequest : IRequest
+    private static void GuardBehaviorType(Type behaviorType)
     {
-        RequestBehaviors.Add(typeof(TBehavior));
+        if (behaviorType is null)
+        {
+            throw new ArgumentNullException(nameof(behaviorType));
+        }
+
+        if (!behaviorType.IsClass || behaviorType.IsAbstract)
+        {
+            throw new ArgumentException("Behavior type must be a non-abstract class.", nameof(behaviorType));
+        }
+
+        var matches = behaviorType.GetInterfaces()
+            .Any(i => i.IsGenericType && (
+                i.GetGenericTypeDefinition() == typeof(IRequestBehavior<,>) ||
+                i.GetGenericTypeDefinition() == typeof(IRequestBehavior<>))
+            );
+
+        if (!matches)
+        {
+            throw new ArgumentException($"Behavior type must implement {typeof(IRequestBehavior<,>).Name}.",
+                nameof(behaviorType));
+        }
     }
 }
