@@ -34,10 +34,10 @@ public class MediatorServiceConfiguration
         RequestBehaviors.Add(typeof(TBehavior));
     }
 
-    public void AddCommandBehavior<TBehavior, TRequest>()
+    public void AddBehavior<TBehavior, TRequest>()
         where TBehavior : IRequestBehavior<TRequest>
         where TRequest : IRequest
     {
-        CommandBehaviors.Add(typeof(TBehavior));
+        RequestBehaviors.Add(typeof(TBehavior));
     }
 }

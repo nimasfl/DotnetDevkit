@@ -42,6 +42,8 @@ public static class Extensions
             services.Add(new ServiceDescriptor(typeof(IRequestBehavior<>), behavior, configuration.ServiceLifetime));
         }
 
+        services.Add(new ServiceDescriptor(typeof(ISender), typeof(Sender), configuration.ServiceLifetime));
+
         return services;
     }
 }
