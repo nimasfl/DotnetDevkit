@@ -13,7 +13,7 @@
         <Nullable>enable</Nullable>
 
         <PackageId>DotnetDevkit.Cache.Abstractions</PackageId>
-        <Authors>YourName</Authors>
+        <Authors>Nima Soufiloo</Authors>
         <Description>Contains abstractions and types for DotnetDevkit.Cache package.</Description>
         <PackageTags>cache;redis;distributed-cache;dotnet</PackageTags>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>

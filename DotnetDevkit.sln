@@ -26,6 +26,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\publish_cache.yml = .github\workflows\publish_cache.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mediator", "Mediator", "{0FF38714-4611-4E9A-A99C-F01AA4B94C29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotnetDevkit.Mediator.Common", "src\Mediator\DotnetDevkit.Mediator.Common\DotnetDevkit.Mediator.Common.csproj", "{98F90D11-15C9-49B4-90CB-E6D654A73457}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,8 @@ Global
 		{E780E919-DD7D-43BE-8DE5-0EAE7E9EADE2} = {7B3F5F1B-44A5-45D3-B118-BD1DA6B04422}
 		{45431C2D-CDB5-4DF4-8B4A-C10AC47AB054} = {3B0E76A3-35F6-44C4-99AF-4F4F58530102}
 		{49312992-B0E2-4D6E-AE45-9063E29A5BC8} = {45431C2D-CDB5-4DF4-8B4A-C10AC47AB054}
+		{0FF38714-4611-4E9A-A99C-F01AA4B94C29} = {65DCB8CA-146D-429A-9D4B-68410668890C}
+		{98F90D11-15C9-49B4-90CB-E6D654A73457} = {0FF38714-4611-4E9A-A99C-F01AA4B94C29}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{362B5225-0B43-4112-8A77-7E9FD16E4264}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -52,5 +58,9 @@ Global
 		{E780E919-DD7D-43BE-8DE5-0EAE7E9EADE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E780E919-DD7D-43BE-8DE5-0EAE7E9EADE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E780E919-DD7D-43BE-8DE5-0EAE7E9EADE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98F90D11-15C9-49B4-90CB-E6D654A73457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98F90D11-15C9-49B4-90CB-E6D654A73457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98F90D11-15C9-49B4-90CB-E6D654A73457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98F90D11-15C9-49B4-90CB-E6D654A73457}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
