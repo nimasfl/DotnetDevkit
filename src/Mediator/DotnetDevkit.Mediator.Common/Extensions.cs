@@ -18,13 +18,10 @@ public static class Extensions
         }
 
         services.Scan(scan => scan.FromAssemblies(configuration.AssembliesToScan)
-            .AddClasses(classes => classes.AssignableTo(typeof(IQueryHandler<,>)), publicOnly: false)
+            .AddClasses(classes => classes.AssignableTo(typeof(IRequestHandler<>)), publicOnly: false)
             .AsImplementedInterfaces()
             .WithLifetime(configuration.ServiceLifetime)
-            .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<>)), publicOnly: false)
-            .AsImplementedInterfaces()
-            .WithLifetime(configuration.ServiceLifetime)
-            .AddClasses(classes => classes.AssignableTo(typeof(ICommandHandler<,>)), publicOnly: false)
+            .AddClasses(classes => classes.AssignableTo(typeof(IRequestHandler<,>)), publicOnly: false)
             .AsImplementedInterfaces()
             .WithLifetime(configuration.ServiceLifetime)
             .AddClasses(classes => classes.AssignableTo(typeof(IDomainEventHandler<>)), publicOnly: false)
