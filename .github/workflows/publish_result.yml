@@ -1,0 +1,15 @@
+﻿name: Publish DotnetDevkit.Cache
+
+on:
+  push:
+    tags:
+      - 'cache/v*'
+
+jobs:
+  publish:
+    uses: ./.github/workflows/nuget-publish-template.yml
+    with:
+      project-path: 'src/Result/DotnetDevkit.Result.csproj'
+      tag-prefix: 'result/v'
+    secrets:
+      NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
