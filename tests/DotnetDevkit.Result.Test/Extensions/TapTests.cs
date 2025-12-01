@@ -1,8 +1,10 @@
-﻿using DotnetDevkit.Result.Extensions;
+﻿using System.Diagnostics.CodeAnalysis;
+using DotnetDevkit.Result.Extensions;
 using FakeItEasy;
 
 namespace DotnetDevkit.Result.Test.Extensions;
 
+[SuppressMessage("Assertions", "xUnit2005:Do not use identity check on value type")]
 public class TapTests
 {
     private class TestError
@@ -21,7 +23,8 @@ public class TapTests
 
         // Assert
         A.CallTo(() => action()).MustHaveHappenedOnceExactly();
-        Assert.Same(result, finalResult);
+        Assert.NotSame(result, finalResult);
+        Assert.Equal(result, finalResult);
     }
 
     [Fact]
@@ -58,7 +61,8 @@ public class TapTests
 
         // Assert
         Assert.True(wasCalled);
-        Assert.Same(result, finalResult);
+        Assert.NotSame(result, finalResult);
+        Assert.Equal(result, finalResult);
     }
 
     [Fact]

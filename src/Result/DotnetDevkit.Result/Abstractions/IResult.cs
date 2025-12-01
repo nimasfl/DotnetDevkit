@@ -8,5 +8,5 @@ public interface IResult<out TError> : IResult where TError : class
 
     public bool IsFailure => !IsSuccess;
 
-    public TError Error { get; }
+    public TError? Error { get; }
 }

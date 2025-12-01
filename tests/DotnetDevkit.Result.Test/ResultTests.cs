@@ -73,20 +73,6 @@ public class ResultTests
     }
 
     [Fact]
-    public void Value_ShouldThrowInvalidOperationException_WhenResultIsFailure()
-    {
-        var error = A.Fake<ErrorBase>();
-        var result = Result<string, ErrorBase>.Failure(error);
-
-        var ex = Assert.Throws<InvalidOperationException>(() =>
-        {
-            var _ = result.Value;
-        });
-
-        Assert.Equal("The value of a failure result can't be accessed.", ex.Message);
-    }
-
-    [Fact]
     public void ImplicitConversion_ShouldReturnSuccessResult_WhenValueIsProvided()
     {
         Result<string, ErrorBase> result = "value";

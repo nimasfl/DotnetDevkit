@@ -2,7 +2,7 @@
 
 public class SerializeTests
 {
-    private record ErrorTest(string Message, int Code);
+    private record ErrorTest(int Code, string Message, int Type);
 
     [Fact]
     public void NewtonsoftSerializeOnResultWithValueOnResultWithValue_ShouldWorkCorrectly_WhenDataIsValidAndIsSuccess()
@@ -11,7 +11,7 @@ public class SerializeTests
 
         var s = Newtonsoft.Json.JsonConvert.SerializeObject(result);
 
-        Assert.Equal("{\"IsSuccess\":true,\"Value\":\"test\",\"Error\":null}", s);
+        Assert.Equal("{\"IsSuccess\":true,\"IsFailure\":false,\"Value\":\"test\",\"Error\":null}", s);
     }
 
     [Fact]
@@ -21,27 +21,31 @@ public class SerializeTests
 
         var s = System.Text.Json.JsonSerializer.Serialize(result);
 
-        Assert.Equal("{\"IsSuccess\":true,\"Value\":\"test\",\"Error\":null}", s);
+        Assert.Equal("{\"IsSuccess\":true,\"IsFailure\":false,\"Value\":\"test\",\"Error\":null}", s);
     }
 
     [Fact]
     public void NewtonsoftSerializeOnResultWithValue_ShouldWorkCorrectly_WhenDataIsValid()
     {
-        var result = Result<string, ErrorTest>.Failure(new ErrorTest("err", 1));
+        var result = Result<string, ErrorTest>.Failure(new ErrorTest(1, "err", 500));
 
         var s = Newtonsoft.Json.JsonConvert.SerializeObject(result);
 
-        Assert.Equal("{\"IsSuccess\":false,\"Error\":{\"Code\":1,\"Message\":\"err\",\"Type\":500},\"Value\":null}", s);
+        Assert.Equal(
+            "{\"IsSuccess\":false,\"IsFailure\":true,\"Value\":null,\"Error\":{\"Code\":1,\"Message\":\"err\",\"Type\":500}}",
+            s);
     }
 
     [Fact]
     public void SystemTextJsonSerializeOnResultWithValueOnResultWithValue_ShouldWorkCorrectly_WhenDataIsValid()
     {
-        var result = Result<string, ErrorTest>.Failure(new ErrorTest("err", 1));
+        var result = Result<string, ErrorTest>.Failure(new ErrorTest(1, "err", 500));
 
         var s = System.Text.Json.JsonSerializer.Serialize(result);
 
-        Assert.Equal("{\"IsSuccess\":false,\"Value\":null,\"Error\":{\"Code\":1,\"Message\":\"err\",\"Type\":500}}", s);
+        Assert.Equal(
+            "{\"IsSuccess\":false,\"IsFailure\":true,\"Value\":null,\"Error\":{\"Code\":1,\"Message\":\"err\",\"Type\":500}}",
+            s);
     }
 
     [Fact]
@@ -52,7 +56,7 @@ public class SerializeTests
 
         var s = Newtonsoft.Json.JsonConvert.SerializeObject(result);
 
-        Assert.Equal("{\"IsSuccess\":true,\"Error\":null}", s);
+        Assert.Equal("{\"IsSuccess\":true,\"IsFailure\":false,\"Error\":null}", s);
     }
 
     [Fact]
@@ -62,26 +66,28 @@ public class SerializeTests
 
         var s = System.Text.Json.JsonSerializer.Serialize(result);
 
-        Assert.Equal("{\"IsSuccess\":true,\"Error\":null}", s);
+        Assert.Equal("{\"IsSuccess\":true,\"IsFailure\":false,\"Error\":null}", s);
     }
 
     [Fact]
     public void NewtonsoftSerializeOnResultWithoutValue_ShouldWorkCorrectly_WhenDataIsValid()
     {
-        var result = Result<ErrorTest>.Failure(new ErrorTest("err", 1));
+        var result = Result<ErrorTest>.Failure(new ErrorTest(1, "err", 500));
 
         var s = Newtonsoft.Json.JsonConvert.SerializeObject(result);
 
-        Assert.Equal("{\"IsSuccess\":false,\"Error\":{\"Code\":1,\"Message\":\"err\",\"Type\":500},\"Value\":null}", s);
+        Assert.Equal("{\"IsSuccess\":false,\"IsFailure\":true,\"Error\":{\"Code\":1,\"Message\":\"err\",\"Type\":500}}",
+            s);
     }
 
     [Fact]
     public void SystemTextJsonSerializeOnResultWithoutValueOnResultWithValue_ShouldWorkCorrectly_WhenDataIsValid()
     {
-        var result = Result<ErrorTest>.Failure(new ErrorTest("err", 1));
+        var result = Result<ErrorTest>.Failure(new ErrorTest(1, "err", 500));
 
         var s = System.Text.Json.JsonSerializer.Serialize(result);
 
-        Assert.Equal("{\"IsSuccess\":false,\"Error\":{\"Code\":1,\"Message\":\"err\",\"Type\":500}}", s);
+        Assert.Equal("{\"IsSuccess\":false,\"IsFailure\":true,\"Error\":{\"Code\":1,\"Message\":\"err\",\"Type\":500}}",
+            s);
     }
 }
