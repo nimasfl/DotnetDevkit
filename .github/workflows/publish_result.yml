@@ -1,4 +1,4 @@
-﻿name: Publish DotnetDevkit.Cache
+﻿name: Publish DotnetDevkit.Result
 
 on:
   push:
