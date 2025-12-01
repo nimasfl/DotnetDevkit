@@ -24,6 +24,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 		.github\workflows\nuget-publish-template.yml = .github\workflows\nuget-publish-template.yml
 		.github\workflows\publish-cache-abstractions.yml = .github\workflows\publish-cache-abstractions.yml
 		.github\workflows\publish_cache.yml = .github\workflows\publish_cache.yml
+		.github\workflows\publish_result.yml = .github\workflows\publish_result.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mediator", "Mediator", "{0FF38714-4611-4E9A-A99C-F01AA4B94C29}"
