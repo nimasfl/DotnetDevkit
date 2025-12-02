@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetDevkit.Result;
 
-public readonly record struct Result<TError> : IResult<TError>, IActionResult where TError : class
+public readonly record struct Result<TError> : IResult<TError> where TError : class
 {
     public bool IsSuccess { get; init; } = true;
 
@@ -51,7 +51,7 @@ public readonly record struct Result<TError> : IResult<TError>, IActionResult wh
     }
 }
 
-public readonly record struct Result<TValue, TError> : IResult<TError>, IActionResult where TError : class
+public readonly record struct Result<TValue, TError> : IResult<TValue, TError> where TError : class
 {
     public bool IsSuccess { get; init; } = true;
 

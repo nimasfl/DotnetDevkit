@@ -1,3 +1,7 @@
-﻿namespace DotnetDevkit.Mediator.Common;
+﻿using DotnetDevkit.Result.Abstractions;
 
-public interface IQuery<TResponse>: IRequest<TResponse>;
+namespace DotnetDevkit.Mediator.Common;
+
+public interface IQuery<out TError> : IRequest<IResult<TError>> where TError : class;
+
+public interface IQuery<out TResponse, out TError> : IRequest<IResult<TResponse, TError>> where TError : class;

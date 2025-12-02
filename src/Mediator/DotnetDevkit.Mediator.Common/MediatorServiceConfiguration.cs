@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,8 +7,10 @@ public class MediatorServiceConfiguration
 {
     internal Assembly[] AssembliesToScan { get; private set; } = [];
     internal ServiceLifetime ServiceLifetime { get; private set; } = ServiceLifetime.Scoped;
-    internal List<Type> RequestBehaviors { get; } = [];
-    internal List<Type> RequestResponseBehaviors { get; } = [];
+    internal List<(Type Behaviour, ServiceLifetime? Lifetime)> RequestBehaviors { get; } = [];
+    internal List<(Type Behaviour, ServiceLifetime? Lifetime)> RequestResponseBehaviors { get; } = [];
+    internal List<(Type Behaviour, ServiceLifetime? Lifetime)> QueryBehaviors { get; } = [];
+    internal List<(Type Behaviour, ServiceLifetime? Lifetime)> CommandBehaviors { get; } = [];
 
     public void RegisterServicesFromAssemblies(params Assembly[] assemblies)
     {
@@ -28,25 +27,35 @@ public class MediatorServiceConfiguration
         ServiceLifetime = serviceLifetime;
     }
 
-    public void AddBehavior(Type behaviorType)
+    public void AddBehavior(Type behaviorType, ServiceLifetime? lifetime = null)
     {
         GuardBehaviorType(behaviorType);
-        if (behaviorType.GetInterfaces().Any(i => i.GetGenericTypeDefinition() == typeof(IRequestBehavior<,>)))
+        if (IsOfType(behaviorType, typeof(IRequestBehavior<,>)))
         {
-            RequestResponseBehaviors.Add(behaviorType);
+            RequestResponseBehaviors.Add((behaviorType, lifetime));
         }
-        else
+        else if (IsOfType(behaviorType, typeof(IRequestBehavior<>)))
         {
-            RequestBehaviors.Add(behaviorType);
+            RequestBehaviors.Add((behaviorType, lifetime));
         }
+        else if (IsOfType(behaviorType, typeof(IQueryBehavior<,>)))
+        {
+            QueryBehaviors.Add((behaviorType, lifetime));
+        }
+        else if (IsOfType(behaviorType, typeof(ICommandBehavior<,>)))
+        {
+            CommandBehaviors.Add((behaviorType, lifetime));
+        }
+    }
+
+    private static bool IsOfType(Type behaviorType, Type targetType)
+    {
+        return behaviorType.GetInterfaces().Any(i => i.GetGenericTypeDefinition() == targetType);
     }
 
     private static void GuardBehaviorType(Type behaviorType)
     {
-        if (behaviorType is null)
-        {
-            throw new ArgumentNullException(nameof(behaviorType));
-        }
+        ArgumentNullException.ThrowIfNull(behaviorType);
 
         if (!behaviorType.IsClass || behaviorType.IsAbstract)
         {
@@ -55,8 +64,11 @@ public class MediatorServiceConfiguration
 
         var matches = behaviorType.GetInterfaces()
             .Any(i => i.IsGenericType && (
-                i.GetGenericTypeDefinition() == typeof(IRequestBehavior<,>) ||
-                i.GetGenericTypeDefinition() == typeof(IRequestBehavior<>))
+                    i.GetGenericTypeDefinition() == typeof(IRequestBehavior<,>) ||
+                    i.GetGenericTypeDefinition() == typeof(IRequestBehavior<>) ||
+                    i.GetGenericTypeDefinition() == typeof(IQueryBehavior<,>) ||
+                    i.GetGenericTypeDefinition() == typeof(ICommandBehavior<,>)
+                )
             );
 
         if (!matches)

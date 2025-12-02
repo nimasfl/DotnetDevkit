@@ -1,6 +1,4 @@
-using System;
 using Microsoft.Extensions.DependencyInjection;
-using Scrutor;
 
 namespace DotnetDevkit.Mediator.Common;
 
@@ -29,15 +27,30 @@ public static class Extensions
             .WithLifetime(configuration.ServiceLifetime)
         );
 
-        foreach (var behavior in configuration.RequestResponseBehaviors)
+        foreach (var (behavior, lifetime) in configuration.RequestResponseBehaviors)
         {
-            services.Add(new ServiceDescriptor(typeof(IRequestBehavior<,>), behavior, configuration.ServiceLifetime));
+            services.Add(new ServiceDescriptor(typeof(IRequestBehavior<,>), behavior,
+                lifetime ?? configuration.ServiceLifetime));
         }
 
-        foreach (var behavior in configuration.RequestBehaviors)
+        foreach (var (behavior, lifetime) in configuration.RequestBehaviors)
         {
-            services.Add(new ServiceDescriptor(typeof(IRequestBehavior<>), behavior, configuration.ServiceLifetime));
+            services.Add(new ServiceDescriptor(typeof(IRequestBehavior<>), behavior,
+                lifetime ?? configuration.ServiceLifetime));
         }
+
+        foreach (var (behavior, lifetime) in configuration.QueryBehaviors)
+        {
+            services.Add(new ServiceDescriptor(typeof(IQueryBehavior<,>), behavior,
+                lifetime ?? configuration.ServiceLifetime));
+        }
+
+        foreach (var (behavior, lifetime) in configuration.CommandBehaviors)
+        {
+            services.Add(new ServiceDescriptor(typeof(ICommandBehavior<,>), behavior,
+                lifetime ?? configuration.ServiceLifetime));
+        }
+
 
         services.Add(new ServiceDescriptor(typeof(ISender), typeof(Sender), configuration.ServiceLifetime));
 
